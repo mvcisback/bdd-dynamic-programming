@@ -4,9 +4,12 @@ version = "0.1.0"
 description = "Library for performing dynamic programming over a Reduced Ordered Decision Diagram (ROBDD)."
 authors = ["Marcell Vazquez-Chanlatte <mvc@linux.com>"]
 license = "MIT"
+packages = [
+    { include = "bdd_dyn" },
+]
 
 [tool.poetry.dependencies]
-python = "3.7"
+python = "^3.6"
 dd = "^0.5.4"
 
 [tool.poetry.dev-dependencies]
