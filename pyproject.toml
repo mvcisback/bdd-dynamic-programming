@@ -1,16 +1,18 @@
 [tool.poetry]
 name = "bdd-dyn"
 version = "0.1.0"
-description = "Library for performing dynamic programming over a Reduced Ordered Decision Diagram (ROBDD)."
+description = "Library for folding (or reducing) over a Reduced Ordered Binary Decision Diagram."
 authors = ["Marcell Vazquez-Chanlatte <mvc@linux.com>"]
 license = "MIT"
 packages = [
-    { include = "bdd_dyn" },
+    { include = "fold_bdd" },
 ]
 
 [tool.poetry.dependencies]
 python = "^3.6"
 dd = "^0.5.4"
+attrs = "^19.3"
+funcy = "^1.13"
 
 [tool.poetry.dev-dependencies]
 
