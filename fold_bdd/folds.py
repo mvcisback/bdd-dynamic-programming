@@ -32,7 +32,7 @@ class Context:
 def _ctx(node, manager, prev_ctx=None):
     max_lvl = len(manager.vars)
     common = {
-        "negated": node.negated, 
+        "negated": node.negated,
         "prev_lvl": None if prev_ctx is None else prev_ctx.curr_lvl,
         "max_lvl": max_lvl,
         "curr_lvl": min(node.level, max_lvl)
@@ -49,7 +49,7 @@ def _ctx(node, manager, prev_ctx=None):
             "high_lvl": min(node.high.level, max_lvl),
         }
 
-    return Context(**common, **specific)    
+    return Context(**common, **specific)
 
 
 def post_order(node, merge, *, manager=None, prev_ctx=None):

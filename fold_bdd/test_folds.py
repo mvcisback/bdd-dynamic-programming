@@ -71,10 +71,11 @@ def test_path():
     for q, a in questions.items():
         assert len(list(path(bexpr, q))) == a
 
+
 def test_fold_path():
     manager = create_manager()
     bexpr = manager.add_expr('x | y')
-    
+
     def merge(ctx, val, acc):
         return acc + 1
 
