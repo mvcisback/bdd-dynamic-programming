@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "bdd-dyn"
+name = "fold-bdd"
 version = "0.1.0"
 description = "Library for folding (or reducing) over a Reduced Ordered Binary Decision Diagram."
 authors = ["Marcell Vazquez-Chanlatte <mvc@linux.com>"]
