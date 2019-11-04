@@ -10,8 +10,8 @@ import bdd_dyn
 
 
 def test_reduce():
-    @fn.memoize(key_func=lambda val, **_: val)
-    def merge(low=None, high=None, **_):
+    @fn.memoize
+    def merge1(ctx, low=None, high=None):
         return 1 if low is None else low + high
 
     manager = BDD()
@@ -19,21 +19,21 @@ def test_reduce():
     manager.add_var('y')
     bexpr = manager.add_expr('x & y')
 
-    val = bdd_dyn.reduce_bdd(bexpr, merge)
+    val = bdd_dyn.reduce_bdd(bexpr, merge1)
     assert val == bexpr.dag_size
 
     # Convert BDD to function.
-    def merge(val, low=None, high=None, negated=False, **_):
+    def merge2(ctx, low=None, high=None):
         if low is None:
-            return lambda _: val
+            return lambda _: ctx.node_val
 
         def _eval(vals):
             val, *vals2 = vals
             out = high(vals2) if val else low(vals2)
-            return negated ^ out
+            return ctx.negated ^ out
 
         return _eval
 
-    _eval = bdd_dyn.reduce_bdd(bexpr, merge)
+    _eval = bdd_dyn.reduce_bdd(bexpr, merge2)
     for vals in combinations([True, False], 2):
         assert all(vals) == _eval(vals)
