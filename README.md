@@ -14,11 +14,7 @@ Library for folding (or reducing) over a Reduced Ordered Binary Decision Diagram
 - [Usage](#usage)
     - [Create ROBDD](#create-robdd)
     - [Post-Order Examples](#post-order-examples)
-        - [Count Number of Nodes in BDD](#count-number-of-nodes-in-bdd)
-        - [Count Number of Solutions to bexpr.](#count-number-of-solutions-to-bexpr)
     - [Fold Path Examples](#fold-path-examples)
-        - [Count nodes along path.](#count-nodes-along-path)
-        - [Count paths corresponding to BDD path](#count-paths-corresponding-to-bdd-path)
 - [Context Object Attributes](#context-object-attributes)
 
 <!-- markdown-toc end -->
