@@ -1,9 +1,9 @@
 # Fold-BDD
 Library for folding (or reducing) over a Reduced Ordered Binary Decision Diagram.
 
-[![Build Status](https://cloud.drone.io/api/badges/mvcisback/dfa/status.svg)](https://cloud.drone.io/mvcisback/dfa)
-[![codecov](https://codecov.io/gh/mvcisback/dfa/branch/master/graph/badge.svg)](https://codecov.io/gh/mvcisback/dfa)
-[![PyPI version](https://badge.fury.io/py/dfa.svg)](https://badge.fury.io/py/dfa)
+[![Build Status](https://cloud.drone.io/api/badges/mvcisback/fold-bdd/status.svg)](https://cloud.drone.io/mvcisback/fold-bdd)
+[![codecov](https://codecov.io/gh/mvcisback/fold-bdd/branch/master/graph/badge.svg)](https://codecov.io/gh/mvcisback/fold-bdd)
+[![PyPI version](https://badge.fury.io/py/fold-bdd.svg)](https://badge.fury.io/py/fold-bdd)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Installation
