@@ -6,6 +6,24 @@ Library for folding (or reducing) over a Reduced Ordered Binary Decision Diagram
 [![PyPI version](https://badge.fury.io/py/fold-bdd.svg)](https://badge.fury.io/py/fold-bdd)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Fold-BDD](#fold-bdd)
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Create ROBDD](#create-robdd)
+    - [Post-Order Examples](#post-order-examples)
+        - [Count Number of Nodes in BDD](#count-number-of-nodes-in-bdd)
+        - [Count Number of Solutions to bexpr.](#count-number-of-solutions-to-bexpr)
+    - [Fold Path Examples](#fold-path-examples)
+        - [Count nodes along path.](#count-nodes-along-path)
+        - [Count paths corresponding to BDD path](#count-paths-corresponding-to-bdd-path)
+- [Context Object Attributes](#context-object-attributes)
+
+<!-- markdown-toc end -->
+
+
 # Installation
 
 If you just need to use `fold_bdd`, you can just run:
