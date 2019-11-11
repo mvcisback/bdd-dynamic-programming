@@ -132,6 +132,7 @@ assert count_paths(bexpr, (True, False)) == 2
 
 The `Context` object contains exposes attributes
 
+- `node: Hashable`  # Reference to Node in ROBDD.
 - `node_val: Union[str, bool]`  # Node name or leaf value.
 - `negated: bool`  # Is the edge to prev node negated.
 - `max_lvl: int`  # How many decision variables are there. 
