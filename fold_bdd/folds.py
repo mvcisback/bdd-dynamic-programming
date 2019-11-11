@@ -1,5 +1,5 @@
 from functools import reduce
-from typing import Union, Optional
+from typing import Union, Optional, Hashable
 
 import attr
 
@@ -9,6 +9,7 @@ class Context:
     node_val: Union[str, bool]
     negated: bool
     max_lvl: int
+    node: Hashable
     curr_lvl: Optional[int] = None
     prev_lvl: Optional[int] = None
     low_lvl: Optional[int] = None
@@ -32,6 +33,7 @@ class Context:
 def _ctx(node, manager, prev_ctx=None):
     max_lvl = len(manager.vars)
     common = {
+        "node": node,
         "negated": node.negated,
         "prev_lvl": None if prev_ctx is None else prev_ctx.curr_lvl,
         "max_lvl": max_lvl,
