@@ -71,9 +71,8 @@ def post_order(node, merge, *, manager=None, prev_ctx=None):
 
 def path(node, vals):
     vals = list(vals)
-    prev_lvl = node.level
+    prev_lvl, offset = node.level, 0
     while node.var is not None:
-        offset = node.level - prev_lvl
         prev_lvl = node.level
         if len(vals) > 1:
             val, *vals = vals[offset:]
@@ -83,6 +82,8 @@ def path(node, vals):
 
         yield node, val
         node = node.high if val else node.low
+        offset = node.level - prev_lvl - 1
+        assert offset >= 0
 
     yield node, val
 
