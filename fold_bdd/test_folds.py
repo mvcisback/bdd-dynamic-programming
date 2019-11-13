@@ -75,6 +75,7 @@ def test_path():
 def test_fold_path():
     manager = create_manager()
     bexpr = manager.add_expr('x | y')
+    bexpr2 = manager.true
 
     def merge(ctx, val, acc):
         return acc + 1
@@ -87,6 +88,9 @@ def test_fold_path():
     assert count_nodes(bexpr, (True, False)) == 2
     assert count_nodes(bexpr, (True, True)) == 2
 
+    assert count_nodes(bexpr2, (True, True)) == 1
+    assert count_nodes(bexpr2, (False, True)) == 1
+
     def merge2(ctx, val, acc):
         return acc * ctx.skipped_paths
 
@@ -97,3 +101,6 @@ def test_fold_path():
     assert count_paths(bexpr, (False, True)) == 1
     assert count_paths(bexpr, (True, False)) == 2
     assert count_paths(bexpr, (True, True)) == 2
+
+    assert count_paths(bexpr2, (True, True)) == 4
+    assert count_paths(bexpr2, (False, True)) == 4

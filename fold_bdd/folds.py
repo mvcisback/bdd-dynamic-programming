@@ -22,7 +22,7 @@ class Context:
     @property
     def skipped_decisions(self):
         if self.prev_lvl is None:
-            return 0
+            return self.curr_lvl
         return self.curr_lvl - self.prev_lvl - 1
 
     @property
@@ -85,7 +85,7 @@ def path(node, vals):
         offset = node.level - prev_lvl - 1
         assert offset >= 0
 
-    yield node, val
+    yield node, None
 
 
 def fold_path(merge, bexpr, vals, initial=None, manager=None):
