@@ -1,5 +1,6 @@
 import funcy as fn
 from itertools import combinations_with_replacement as combinations
+from itertools import product
 
 try:
     from dd.cudd import BDD
@@ -104,3 +105,30 @@ def test_fold_path():
 
     assert count_paths(bexpr2, (True, True)) == 4
     assert count_paths(bexpr2, (False, True)) == 4
+
+
+def test_path_negation():
+    levels = {'c1': 0, 'a1': 1, 'c2': 2, 'a2': 3}
+    manager = BDD(levels)
+    manager.configure(reordering=False)
+
+    c1, a1, c2, a2 = map(manager.var, ['c1', 'a1', 'c2', 'a2'])
+    bexpr = ((c1 & a1) | (~c1 & ~a1)) & ((c2 & a2) | (~c2 & ~a2))
+
+    assert bexpr.low.negated
+    assert not bexpr.high.negated
+
+    assert len(list(path(bexpr, (True, False, False, False)))) == 3
+    assert len(list(path(bexpr, (True, True, True, True)))) == 5
+
+    def merge(ctx, val, acc):
+        if ctx.is_leaf:
+            return ctx.path_negated ^ ctx.node_val
+        return None
+
+    def evaluate(vals):
+        return fold_path(merge, bexpr, vals, initial=[])
+
+    for val in product(*(4*[[False, True]])):
+        expected = (val[0] == val[1]) and (val[2] == val[3])
+        assert evaluate(val) == expected

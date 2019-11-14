@@ -10,6 +10,7 @@ class Context:
     negated: bool
     max_lvl: int
     node: Hashable
+    path_negated: bool
     curr_lvl: Optional[int] = None
     prev_lvl: Optional[int] = None
     low_lvl: Optional[int] = None
@@ -32,9 +33,12 @@ class Context:
 
 def _ctx(node, manager, prev_ctx=None):
     max_lvl = len(manager.vars)
+    path_negated = False if prev_ctx is None else \
+        (prev_ctx.path_negated ^ prev_ctx.negated)
     common = {
         "node": node,
         "negated": node.negated,
+        "path_negated": path_negated,
         "prev_lvl": None if prev_ctx is None else prev_ctx.curr_lvl,
         "max_lvl": max_lvl,
         "curr_lvl": min(node.level, max_lvl)
