@@ -2,6 +2,7 @@ from functools import reduce
 from typing import Union, Optional, Hashable
 
 import attr
+import funcy as fn
 
 
 @attr.s(auto_attribs=True, frozen=True)
@@ -62,15 +63,19 @@ def post_order(node, merge, *, manager=None, prev_ctx=None):
     if manager is None:
         manager = node.bdd
 
-    ctx = _ctx(node, manager, prev_ctx=prev_ctx)
+    @fn.memoize
+    def _post_order(node, prev_ctx=None):
+        ctx = _ctx(node, manager, prev_ctx=prev_ctx)
 
-    if ctx.is_leaf:
-        return merge(ctx=ctx, low=None, high=None)
+        if ctx.is_leaf:
+            return merge(ctx=ctx, low=None, high=None)
 
-    def _reduce(c):
-        return post_order(c, merge, manager=manager, prev_ctx=ctx)
+        def _reduce(c):
+            return _post_order(c, prev_ctx=ctx)
 
-    return merge(ctx=ctx, high=_reduce(node.high), low=_reduce(node.low))
+        return merge(ctx=ctx, high=_reduce(node.high), low=_reduce(node.low))
+
+    return _post_order(node)
 
 
 def path(node, vals):
