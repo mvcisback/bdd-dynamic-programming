@@ -110,6 +110,7 @@ The `Context` object contains exposes attributes
 - `node: Hashable`  # Reference to Node in ROBDD.
 - `node_val: Union[str, bool]`  # Node name or leaf value.
 - `negated: bool`  # Is the edge to prev node negated.
+- `first_lvl: int` # Level of first decision in ROBDD.
 - `max_lvl: int`  # How many decision variables are there. 
 - `curr_lvl: int`  # Which decision is this.
 - `low_lvl: Optional[int]`  # Which decision does the False edge point to. None if leaf.
