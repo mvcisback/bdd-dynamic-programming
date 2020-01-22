@@ -10,6 +10,7 @@ class Context:
     node_val: Union[str, bool]
     negated: bool
     max_lvl: int
+    first_lvl: int
     node: Hashable
     path_negated: bool
     curr_lvl: Optional[int] = None
@@ -18,20 +19,30 @@ class Context:
 
     @property
     def is_leaf(self):
-        return self.curr_lvl == self.max_lvl
+        return self.curr_lvl == self.max_lvl + 1
 
     def skipped_decisions(self, edge):
+        if self.is_leaf:
+            return 0
+
         lvl = self.high_lvl if edge else self.low_lvl
         if lvl is None:
             lvl = self.max_lvl + 1
-        return lvl - self.curr_lvl - 1
+        return max(lvl - self.curr_lvl - 1, 0)
 
     def skipped_paths(self, edge):
         return 2**self.skipped_decisions(edge)
 
 
 def _ctx(node, manager, prev_ctx=None):
-    max_lvl = len(manager.vars)
+    if prev_ctx is None:
+        max_lvl = len(manager.vars)
+        first_lvl = min(node.level, max_lvl + 1)
+    else:
+        max_lvl = prev_ctx.max_lvl
+        first_lvl = prev_ctx.first_lvl
+
+
     path_negated = False if prev_ctx is None else \
         (prev_ctx.path_negated ^ prev_ctx.negated)
     common = {
@@ -39,7 +50,8 @@ def _ctx(node, manager, prev_ctx=None):
         "negated": node.negated,
         "path_negated": path_negated,
         "max_lvl": max_lvl,
-        "curr_lvl": min(node.level, max_lvl)
+        "curr_lvl": min(node.level, max_lvl + 1),
+        "first_lvl": first_lvl,
     }
 
     if node.var is None:
