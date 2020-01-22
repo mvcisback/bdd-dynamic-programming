@@ -87,19 +87,6 @@ def dag_size(bexpr):
 assert bexpr.dag_size == dag_size(bexpr)
 ```
 
-### Count Number of Solutions to bexpr.
-```python
-def merge2(ctx, low, high):
-    if ctx.is_leaf:
-        return ctx.skipped_paths if ctx.node_val else 0
-    return (low + high) * ctx.skipped_paths
-
-def count_solutions(bexpr):
-    return post_order(bexpr, merge2)
-
-assert count_solutions(bexpr) == 3
-```
-
 ## Fold Path Examples
 
 ### Count nodes along path.
@@ -115,18 +102,6 @@ assert count_nodes(bexpr, (False, False)) == 3
 assert count_nodes(bexpr, (True, False)) == 2
 ```
 
-### Count paths corresponding to BDD path
-
-```python
-def merge(ctx, val, acc):
-    return acc * ctx.skipped_paths
-
-def count_paths(bexpr, vals):
-    return fold_path(merge, bexpr, vals, initial=1)
-
-assert count_paths(bexpr, (False, True)) == 1
-assert count_paths(bexpr, (True, False)) == 2
-```
 
 # Context Object Attributes
 
@@ -137,7 +112,6 @@ The `Context` object contains exposes attributes
 - `negated: bool`  # Is the edge to prev node negated.
 - `max_lvl: int`  # How many decision variables are there. 
 - `curr_lvl: int`  # Which decision is this.
-- `prev_lvl: Optional[int]`  # Which decision was the parent. None if root.
 - `low_lvl: Optional[int]`  # Which decision does the False edge point to. None if leaf.
 - `high_lvl: Optional[int]`  # Which decision does the True edge point to. None if leaf.
 - `is_leaf: bool`  # Is the current node a leaf.

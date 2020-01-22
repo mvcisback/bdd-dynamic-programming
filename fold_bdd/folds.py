@@ -13,7 +13,6 @@ class Context:
     node: Hashable
     path_negated: bool
     curr_lvl: Optional[int] = None
-    prev_lvl: Optional[int] = None
     low_lvl: Optional[int] = None
     high_lvl: Optional[int] = None
 
@@ -21,15 +20,14 @@ class Context:
     def is_leaf(self):
         return self.curr_lvl == self.max_lvl
 
-    @property
-    def skipped_decisions(self):
-        if self.prev_lvl is None:
-            return self.curr_lvl
-        return self.curr_lvl - self.prev_lvl - 1
+    def skipped_decisions(self, edge):
+        lvl = self.high_lvl if edge else self.low_lvl
+        if lvl is None:
+            lvl = self.max_lvl + 1
+        return lvl - self.curr_lvl - 1
 
-    @property
-    def skipped_paths(self):
-        return 2**self.skipped_decisions
+    def skipped_paths(self, edge):
+        return 2**self.skipped_decisions(edge)
 
 
 def _ctx(node, manager, prev_ctx=None):
@@ -40,7 +38,6 @@ def _ctx(node, manager, prev_ctx=None):
         "node": node,
         "negated": node.negated,
         "path_negated": path_negated,
-        "prev_lvl": None if prev_ctx is None else prev_ctx.curr_lvl,
         "max_lvl": max_lvl,
         "curr_lvl": min(node.level, max_lvl)
     }

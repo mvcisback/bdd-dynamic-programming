@@ -48,9 +48,10 @@ def test_post_order():
 
     def merge3(ctx, low, high):
         if ctx.is_leaf:
-            return ctx.skipped_paths if ctx.node_val else 0
-
-        return (low + high) * ctx.skipped_paths
+            return int(ctx.node_val)
+        low *= ctx.skipped_paths(False)
+        high *= ctx.skipped_paths(True)
+        return low + high
 
     bexpr2 = manager.add_expr('x | y')
 
@@ -93,7 +94,7 @@ def test_fold_path():
     assert count_nodes(bexpr2, (False, True)) == 1
 
     def merge2(ctx, val, acc):
-        return acc * ctx.skipped_paths
+        return acc * ctx.skipped_paths(val)
 
     def count_paths(bexpr, vals):
         return fold_path(merge2, bexpr, vals, initial=1)
@@ -102,9 +103,6 @@ def test_fold_path():
     assert count_paths(bexpr, (False, True)) == 1
     assert count_paths(bexpr, (True, False)) == 2
     assert count_paths(bexpr, (True, True)) == 2
-
-    assert count_paths(bexpr2, (True, True)) == 4
-    assert count_paths(bexpr2, (False, True)) == 4
 
 
 def test_path_negation():
