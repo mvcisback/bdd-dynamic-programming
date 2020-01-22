@@ -19,7 +19,7 @@ class Context:
 
     @property
     def is_leaf(self):
-        return self.curr_lvl == self.max_lvl + 1
+        return self.low_lvl is None
 
     def skipped_decisions(self, edge):
         if self.is_leaf:
@@ -27,8 +27,8 @@ class Context:
 
         lvl = self.high_lvl if edge else self.low_lvl
         if lvl is None:
-            lvl = self.max_lvl + 1
-        return max(lvl - self.curr_lvl - 1, 0)
+            lvl = self.max_lvl
+        return lvl - self.curr_lvl - 1
 
     def skipped_paths(self, edge):
         return 2**self.skipped_decisions(edge)
@@ -37,11 +37,10 @@ class Context:
 def _ctx(node, manager, prev_ctx=None):
     if prev_ctx is None:
         max_lvl = len(manager.vars)
-        first_lvl = min(node.level, max_lvl + 1)
+        first_lvl = min(node.level, max_lvl)
     else:
         max_lvl = prev_ctx.max_lvl
         first_lvl = prev_ctx.first_lvl
-
 
     path_negated = False if prev_ctx is None else \
         (prev_ctx.path_negated ^ prev_ctx.negated)
@@ -50,7 +49,7 @@ def _ctx(node, manager, prev_ctx=None):
         "negated": node.negated,
         "path_negated": path_negated,
         "max_lvl": max_lvl,
-        "curr_lvl": min(node.level, max_lvl + 1),
+        "curr_lvl": node.level if node.var else max_lvl,
         "first_lvl": first_lvl,
     }
 
@@ -61,8 +60,8 @@ def _ctx(node, manager, prev_ctx=None):
     else:
         specific = {
             "node_val": node.var,
-            "low_lvl": min(node.low.level, max_lvl),
-            "high_lvl": min(node.high.level, max_lvl),
+            "low_lvl": node.low.level if node.low.var else max_lvl,
+            "high_lvl": node.high.level if node.high.var else max_lvl,
         }
 
     return Context(**common, **specific)

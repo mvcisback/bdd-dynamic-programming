@@ -49,6 +49,7 @@ def test_post_order():
     def merge3(ctx, low, high):
         if ctx.is_leaf:
             return int(ctx.node_val)
+
         low *= ctx.skipped_paths(False)
         high *= ctx.skipped_paths(True)
         return low + high
